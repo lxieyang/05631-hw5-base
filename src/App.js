@@ -29,7 +29,9 @@ class App extends Component {
       currBorderColor,
       currBorderWidth,
       currFillColor,
+      svgShapes,
     } = this.state;
+
     return (
       <React.Fragment>
         <ControlContext.Provider
@@ -61,7 +63,7 @@ class App extends Component {
           }}
         >
           <ControlPanel />
-          <Workspace />
+          <Workspace svgShapes={svgShapes} />
         </ControlContext.Provider>
       </React.Fragment>
     );

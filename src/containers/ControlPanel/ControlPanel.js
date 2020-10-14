@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 
 import CursorImg from "../../assets/img/cursor.png";
 import LineImg from "../../assets/img/line.png";

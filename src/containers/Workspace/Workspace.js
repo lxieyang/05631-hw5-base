@@ -5,11 +5,11 @@ import SVGLayer from "./SVGLayer/SVGLayer";
 
 import "./Workspace.css";
 
-const Workspace = () => {
+const Workspace = ({ svgShapes }) => {
   return (
     <div className="Workspace">
       <CanvasLayer />
-      <SVGLayer />
+      <SVGLayer svgShapes={svgShapes} />
     </div>
   );
 };
