@@ -9,12 +9,16 @@ import "./App.css";
 
 class App extends Component {
   state = {
+    // controls
     disableControl: false, // true, false
     currLayer: "svg", // 'canvas', 'svg', 'both'
-    currMode: "select", // 'select', 'line', 'rect', 'ellipse'
+    currMode: "line", // 'select', 'line', 'rect', 'ellipse'
     currBorderColor: "#000",
     currBorderWidth: 3,
     currFillColor: "#9fce63",
+
+    // workspace
+    svgShapes: [],
   };
 
   render() {
