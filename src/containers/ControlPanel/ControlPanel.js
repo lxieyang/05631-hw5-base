@@ -51,12 +51,12 @@ const Layers = () => {
 };
 
 const Modes = () => {
-  const { currMode, setCurrMode } = useContext(ControlContext);
+  const { currMode, setCurrMode, disableControl } = useContext(ControlContext);
 
   return (
     <div className="Control">
       <h3>Mode:</h3>
-      <div className="Modes">
+      <div className={["Modes", disableControl ? "Disabled" : null].join(" ")}>
         <div
           className={["Mode", currMode === "select" ? "Active" : null].join(
             " "
@@ -107,11 +107,12 @@ const Modes = () => {
 
 const ColorPicker = (props) => {
   const { currColor, setCurrColor } = props;
+  const { disableControl } = useContext(ControlContext);
 
   return (
     <div className="Control">
       <h3>{props.title}</h3>
-      <div className="Modes">
+      <div className={["Modes", disableControl ? "Disabled" : null].join(" ")}>
         {supportedColors.map((color, idx) => (
           <div
             key={idx}
@@ -161,7 +162,9 @@ const FillColor = () => {
 };
 
 const BorderWidth = () => {
-  const { currBorderWidth, setCurrBorderWidth } = useContext(ControlContext);
+  const { currBorderWidth, setCurrBorderWidth, disableControl } = useContext(
+    ControlContext
+  );
 
   return (
     <div className="Control">
@@ -174,6 +177,7 @@ const BorderWidth = () => {
           min={1}
           max={30}
           value={currBorderWidth}
+          disabled={disableControl}
         />
         &nbsp;&nbsp;&nbsp;
         <span>{currBorderWidth}</span>
@@ -183,6 +187,8 @@ const BorderWidth = () => {
 };
 
 const Delete = () => {
+  const { disableControl } = useContext(ControlContext);
+
   return (
     <div className="Control">
       <h3>Delete:</h3>
@@ -191,6 +197,7 @@ const Delete = () => {
           onClick={() => {
             console.log("delete");
           }}
+          disabled={disableControl}
         >
           Delete
         </button>{" "}
@@ -199,6 +206,7 @@ const Delete = () => {
           onClick={() => {
             console.log("delete all");
           }}
+          disabled={disableControl}
         >
           Delete All
         </button>

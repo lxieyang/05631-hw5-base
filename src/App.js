@@ -9,6 +9,7 @@ import "./App.css";
 
 class App extends Component {
   state = {
+    disableControl: false, // true, false
     currLayer: "svg", // 'canvas', 'svg', 'both'
     currMode: "select", // 'select', 'line', 'rect', 'ellipse'
     currBorderColor: "#000",
@@ -18,6 +19,7 @@ class App extends Component {
 
   render() {
     const {
+      disableControl,
       currLayer,
       currMode,
       currBorderColor,
@@ -28,9 +30,13 @@ class App extends Component {
       <React.Fragment>
         <ControlContext.Provider
           value={{
+            disableControl,
             currLayer,
             setCurrLayer: (layer) => {
-              this.setState({ currLayer: layer });
+              this.setState({
+                currLayer: layer,
+                disableControl: layer === "both" ? true : false,
+              });
             },
             currMode,
             setCurrMode: (mode) => {
