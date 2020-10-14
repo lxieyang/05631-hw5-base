@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import CursorImg from "../../assets/img/cursor.png";
 import LineImg from "../../assets/img/line.png";
+import supportedColors from "../../shared/supportedColors";
+import ControlContext from "../../contexts/control-context";
 
 import "./ControlPanel.css";
 
 const Layers = () => {
-  const [layer, setLayer] = useState("svg"); // 'canvas', 'svg', 'both'
+  const { currLayer, setCurrLayer } = useContext(ControlContext);
+
   return (
     <div className="Control">
       <h3>Layers: </h3>
@@ -16,8 +19,8 @@ const Layers = () => {
           id="radio-show-canvas"
           name="layers-selection"
           value={"canvas"}
-          checked={layer === "canvas"}
-          onChange={(e) => setLayer(e.target.value)}
+          checked={currLayer === "canvas"}
+          onChange={(e) => setCurrLayer(e.target.value)}
         />
         Show Canvas layer
       </label>
@@ -27,8 +30,8 @@ const Layers = () => {
           id="radio-show-svg"
           name="layers-selection"
           value={"svg"}
-          checked={layer === "svg"}
-          onChange={(e) => setLayer(e.target.value)}
+          checked={currLayer === "svg"}
+          onChange={(e) => setCurrLayer(e.target.value)}
         />
         Show SVG layer
       </label>
@@ -38,8 +41,8 @@ const Layers = () => {
           id="radio-show-both"
           name="layers-selection"
           value={"both"}
-          checked={layer === "both"}
-          onChange={(e) => setLayer(e.target.value)}
+          checked={currLayer === "both"}
+          onChange={(e) => setCurrLayer(e.target.value)}
         />
         Show both layers
       </label>
@@ -48,26 +51,29 @@ const Layers = () => {
 };
 
 const Modes = () => {
-  const [mode, setMode] = useState("select"); // 'select', 'line', 'rect', 'ellipse'
+  const { currMode, setCurrMode } = useContext(ControlContext);
+
   return (
     <div className="Control">
       <h3>Mode:</h3>
       <div className="Modes">
         <div
-          className={["Mode", mode === "select" ? "Active" : null].join(" ")}
-          onClick={() => setMode("select")}
+          className={["Mode", currMode === "select" ? "Active" : null].join(
+            " "
+          )}
+          onClick={() => setCurrMode("select")}
         >
           <img src={CursorImg} alt="cursor" />
         </div>
         <div
-          className={["Mode", mode === "line" ? "Active" : null].join(" ")}
-          onClick={() => setMode("line")}
+          className={["Mode", currMode === "line" ? "Active" : null].join(" ")}
+          onClick={() => setCurrMode("line")}
         >
           <img src={LineImg} alt="line" />
         </div>
         <div
-          className={["Mode", mode === "rect" ? "Active" : null].join(" ")}
-          onClick={() => setMode("rect")}
+          className={["Mode", currMode === "rect" ? "Active" : null].join(" ")}
+          onClick={() => setCurrMode("rect")}
         >
           <div
             style={{
@@ -79,8 +85,10 @@ const Modes = () => {
           ></div>
         </div>
         <div
-          className={["Mode", mode === "ellipse" ? "Active" : null].join(" ")}
-          onClick={() => setMode("ellipse")}
+          className={["Mode", currMode === "ellipse" ? "Active" : null].join(
+            " "
+          )}
+          onClick={() => setCurrMode("ellipse")}
         >
           <div
             style={{
@@ -97,19 +105,8 @@ const Modes = () => {
   );
 };
 
-const supportedColors = [
-  "transparent",
-  "#fff",
-  "#bfbfbf",
-  "#000",
-  "#fffe55",
-  "#ea3323",
-  "#4faeea",
-  "#9fce63",
-];
-
 const ColorPicker = (props) => {
-  const [selectedColor, setSelectedColor] = useState(props.defaultColor);
+  const { currColor, setCurrColor } = props;
 
   return (
     <div className="Control">
@@ -118,10 +115,10 @@ const ColorPicker = (props) => {
         {supportedColors.map((color, idx) => (
           <div
             key={idx}
-            className={["Mode", selectedColor === color ? "Active" : null].join(
+            className={["Mode", currColor === color ? "Active" : null].join(
               " "
             )}
-            onClick={() => setSelectedColor(color)}
+            onClick={() => setCurrColor(color)}
           >
             <div
               className="ColorBlock"
@@ -139,8 +136,32 @@ const ColorPicker = (props) => {
   );
 };
 
+const BorderColor = () => {
+  const { currBorderColor, setCurrBorderColor } = useContext(ControlContext);
+
+  return (
+    <ColorPicker
+      title={"Border color:"}
+      currColor={currBorderColor}
+      setCurrColor={setCurrBorderColor}
+    />
+  );
+};
+
+const FillColor = () => {
+  const { currFillColor, setCurrFillColor } = useContext(ControlContext);
+
+  return (
+    <ColorPicker
+      title={"Fill color:"}
+      currColor={currFillColor}
+      setCurrColor={setCurrFillColor}
+    />
+  );
+};
+
 const BorderWidth = () => {
-  const [borderWidth, setBorderWidth] = useState(3);
+  const { currBorderWidth, setCurrBorderWidth } = useContext(ControlContext);
 
   return (
     <div className="Control">
@@ -149,13 +170,13 @@ const BorderWidth = () => {
         <input
           type="range"
           style={{ width: 200 }}
-          onChange={(e) => setBorderWidth(e.target.value)}
+          onChange={(e) => setCurrBorderWidth(e.target.value)}
           min={1}
           max={30}
-          value={borderWidth}
+          value={currBorderWidth}
         />
         &nbsp;&nbsp;&nbsp;
-        <span>{borderWidth}</span>
+        <span>{currBorderWidth}</span>
       </div>
     </div>
   );
@@ -191,9 +212,9 @@ const ControlPanel = () => {
     <div className="ControlPanel">
       <Layers />
       <Modes />
-      <ColorPicker title={"Border color:"} defaultColor={"#000"} />
+      <BorderColor />
       <BorderWidth />
-      <ColorPicker title={"Fill color:"} defaultColor={"#9fce63"} />
+      <FillColor />
       <Delete />
     </div>
   );
