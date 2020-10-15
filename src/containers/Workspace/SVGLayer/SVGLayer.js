@@ -8,12 +8,14 @@ import ControlContext from "../../../contexts/control-context";
 
 import { selectShadowId } from "../../../shared/util";
 
-const SVGLayer = ({ svgShapes, addShapes }) => {
+const SVGLayer = () => {
   const {
     currMode,
     currBorderColor,
     currBorderWidth,
     currFillColor,
+    svgShapes,
+    addShape,
     selectedShapeId,
     setSelectedShapeId,
   } = useContext(ControlContext);
@@ -53,7 +55,7 @@ const SVGLayer = ({ svgShapes, addShapes }) => {
     if (currMode !== "select") {
       if (!(initPoint.x === currPoint.x && initPoint.y === currPoint.y)) {
         // should create
-        addShapes({
+        addShape({
           type: currMode,
           initCoords: initPoint,
           finalCoords: currPoint,

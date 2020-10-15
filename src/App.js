@@ -22,7 +22,7 @@ class App extends Component {
     selectedShapeId: undefined,
   };
 
-  addShapes = (shapeData) => {
+  addShape = (shapeData) => {
     let shapes = [...this.state.svgShapes];
     const id = genId();
     shapes.push({
@@ -70,6 +70,8 @@ class App extends Component {
             setCurrFillColor: (fillColor) => {
               this.setState({ currFillColor: fillColor });
             },
+            svgShapes,
+            addShape: this.addShape,
             selectedShapeId,
             setSelectedShapeId: (id) => {
               this.setState({ selectedShapeId: id });
@@ -78,7 +80,7 @@ class App extends Component {
           }}
         >
           <ControlPanel />
-          <Workspace svgShapes={svgShapes} addShapes={this.addShapes} />
+          <Workspace />
         </ControlContext.Provider>
       </React.Fragment>
     );

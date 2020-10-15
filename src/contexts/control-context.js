@@ -10,8 +10,11 @@ const controlContext = createContext({
   currFillColor: "",
   setCurrFillColor: () => {},
 
+  svgShapes: [],
+  addShape: () => {},
   selectedShapeId: "", // a string or undefined
   setSelectedShapeId: () => {},
+  deleteSelectedShape: () => {},
 });
 
 export default controlContext;
