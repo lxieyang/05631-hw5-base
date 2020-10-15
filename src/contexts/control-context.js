@@ -1,9 +1,6 @@
 import { createContext } from "react";
 
 const controlContext = createContext({
-  disableControl: false,
-  currLayer: "",
-  setCurrLayer: () => {},
   currMode: "",
   setCurrMode: () => {},
   currBorderColor: "",

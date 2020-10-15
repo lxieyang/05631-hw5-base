@@ -10,8 +10,6 @@ import "./App.css";
 class App extends Component {
   state = {
     // controls
-    disableControl: false, // true, false
-    currLayer: "svg", // 'canvas', 'svg', 'both'
     currMode: "line", // 'select', 'line', 'rect', 'ellipse'
     currBorderColor: "#000",
     currBorderWidth: 3,
@@ -23,8 +21,6 @@ class App extends Component {
 
   render() {
     const {
-      disableControl,
-      currLayer,
       currMode,
       currBorderColor,
       currBorderWidth,
@@ -36,14 +32,6 @@ class App extends Component {
       <React.Fragment>
         <ControlContext.Provider
           value={{
-            disableControl,
-            currLayer,
-            setCurrLayer: (layer) => {
-              this.setState({
-                currLayer: layer,
-                disableControl: layer === "both" ? true : false,
-              });
-            },
             currMode,
             setCurrMode: (mode) => {
               this.setState({ currMode: mode });

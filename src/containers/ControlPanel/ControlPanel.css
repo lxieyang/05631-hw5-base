@@ -27,13 +27,15 @@
   cursor: pointer;
 }
 
-.Control .DeleteButtonsContainer {
+.Control .DeleteButtonsContainer,
+.Control .UndoRedoButtonsContainer {
   display: flex;
   justify-content: space-around;
 }
 
-.DeleteButtonsContainer button {
-  width: 40%;
+.DeleteButtonsContainer button,
+.UndoRedoButtonsContainer button {
+  width: 45%;
 }
 
 .Modes {

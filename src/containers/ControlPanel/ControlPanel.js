@@ -7,56 +7,13 @@ import ControlContext from "../../contexts/control-context";
 
 import "./ControlPanel.css";
 
-const Layers = () => {
-  const { currLayer, setCurrLayer } = useContext(ControlContext);
-
-  return (
-    <div className="Control">
-      <h3>Layers: </h3>
-      <label>
-        <input
-          type="radio"
-          id="radio-show-canvas"
-          name="layers-selection"
-          value={"canvas"}
-          checked={currLayer === "canvas"}
-          onChange={(e) => setCurrLayer(e.target.value)}
-        />
-        Show Canvas layer
-      </label>
-      <label>
-        <input
-          type="radio"
-          id="radio-show-svg"
-          name="layers-selection"
-          value={"svg"}
-          checked={currLayer === "svg"}
-          onChange={(e) => setCurrLayer(e.target.value)}
-        />
-        Show SVG layer
-      </label>
-      <label>
-        <input
-          type="radio"
-          id="radio-show-both"
-          name="layers-selection"
-          value={"both"}
-          checked={currLayer === "both"}
-          onChange={(e) => setCurrLayer(e.target.value)}
-        />
-        Show both layers
-      </label>
-    </div>
-  );
-};
-
 const Modes = () => {
-  const { currMode, setCurrMode, disableControl } = useContext(ControlContext);
+  const { currMode, setCurrMode } = useContext(ControlContext);
 
   return (
     <div className="Control">
       <h3>Mode:</h3>
-      <div className={["Modes", disableControl ? "Disabled" : null].join(" ")}>
+      <div className="Modes">
         <div
           className={["Mode", currMode === "select" ? "Active" : null].join(
             " "
@@ -107,12 +64,11 @@ const Modes = () => {
 
 const ColorPicker = (props) => {
   const { currColor, setCurrColor } = props;
-  const { disableControl } = useContext(ControlContext);
 
   return (
     <div className="Control">
       <h3>{props.title}</h3>
-      <div className={["Modes", disableControl ? "Disabled" : null].join(" ")}>
+      <div className="Modes">
         {supportedColors.map((color, idx) => (
           <div
             key={idx}
@@ -162,9 +118,7 @@ const FillColor = () => {
 };
 
 const BorderWidth = () => {
-  const { currBorderWidth, setCurrBorderWidth, disableControl } = useContext(
-    ControlContext
-  );
+  const { currBorderWidth, setCurrBorderWidth } = useContext(ControlContext);
 
   return (
     <div className="Control">
@@ -177,7 +131,6 @@ const BorderWidth = () => {
           min={1}
           max={30}
           value={currBorderWidth}
-          disabled={disableControl}
         />
         &nbsp;&nbsp;&nbsp;
         <span>{currBorderWidth}</span>
@@ -187,8 +140,6 @@ const BorderWidth = () => {
 };
 
 const Delete = () => {
-  const { disableControl } = useContext(ControlContext);
-
   return (
     <div className="Control">
       <h3>Delete:</h3>
@@ -197,18 +148,41 @@ const Delete = () => {
           onClick={() => {
             console.log("delete");
           }}
-          disabled={disableControl}
         >
+          <span role="img" aria-label="undo">
+            🚮
+          </span>
           Delete
         </button>{" "}
-        &nbsp;
+      </div>
+    </div>
+  );
+};
+
+const UndoRedo = () => {
+  return (
+    <div className="Control">
+      <h3>Undo / Redo:</h3>
+      <div className="UndoRedoButtonsContainer">
         <button
           onClick={() => {
-            console.log("delete all");
+            console.log("undo");
           }}
-          disabled={disableControl}
         >
-          Delete All
+          <span role="img" aria-label="undo">
+            ↩️
+          </span>{" "}
+          Undo
+        </button>{" "}
+        <button
+          onClick={() => {
+            console.log("redo");
+          }}
+        >
+          <span role="img" aria-label="redo">
+            ↪️
+          </span>
+          Redo
         </button>
       </div>
     </div>
@@ -218,12 +192,13 @@ const Delete = () => {
 const ControlPanel = () => {
   return (
     <div className="ControlPanel">
-      <Layers />
+      {/* <Layers /> */}
       <Modes />
       <BorderColor />
       <BorderWidth />
       <FillColor />
       <Delete />
+      <UndoRedo />
     </div>
   );
 };

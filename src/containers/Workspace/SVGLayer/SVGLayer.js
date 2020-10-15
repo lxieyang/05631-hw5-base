@@ -8,7 +8,6 @@ import ControlContext from "../../../contexts/control-context";
 
 const SVGLayer = ({ svgShapes }) => {
   const {
-    currLayer,
     currMode,
     currBorderColor,
     currBorderWidth,
@@ -117,9 +116,6 @@ const SVGLayer = ({ svgShapes }) => {
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      style={{
-        display: currLayer === "svg" || currLayer === "both" ? "block" : "none",
-      }}
     >
       {svgShapes.map((shape, idx) => {
         return null;
