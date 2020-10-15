@@ -12,6 +12,7 @@ const controlContext = createContext({
 
   svgShapes: [],
   addShape: () => {},
+  updateShape: () => {},
   selectedShapeId: "", // a string or undefined
   setSelectedShapeId: () => {},
   deleteSelectedShape: () => {},

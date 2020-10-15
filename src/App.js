@@ -32,6 +32,19 @@ class App extends Component {
     this.setState({ svgShapes: shapes, selectedShapeId: id });
   };
 
+  updateShape = (shapeId, newData) => {
+    console.log(shapeId);
+    let shapes = [...this.state.svgShapes].map((shape) => {
+      if (shape.id === shapeId) {
+        shape = { ...shape, ...newData };
+        console.log(shape);
+      }
+      return shape;
+    });
+
+    this.setState({ svgShapes: shapes });
+  };
+
   deleteSelectedShape = () => {
     let shapes = [...this.state.svgShapes].filter(
       (shape) => shape.id !== this.state.selectedShapeId
@@ -72,6 +85,7 @@ class App extends Component {
             },
             svgShapes,
             addShape: this.addShape,
+            updateShape: this.updateShape,
             selectedShapeId,
             setSelectedShapeId: (id) => {
               this.setState({ selectedShapeId: id });

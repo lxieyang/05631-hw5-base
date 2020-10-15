@@ -16,6 +16,7 @@ const SVGLayer = () => {
     currFillColor,
     svgShapes,
     addShape,
+    updateShape,
     selectedShapeId,
     setSelectedShapeId,
   } = useContext(ControlContext);
@@ -23,6 +24,13 @@ const SVGLayer = () => {
   const [drawing, setDrawing] = useState(false);
   const [initPoint, setInitPoint] = useState({ x: undefined, y: undefined });
   const [currPoint, setCurrPoint] = useState({ x: undefined, y: undefined });
+
+  const [dragging, setDragging] = useState(false);
+  const [mouseDownPoint, setMouseDownPoint] = useState({
+    x: undefined,
+    y: undefined,
+  });
+  const [draggingShape, setDraggingShape] = useState(undefined);
 
   const svgRef = useRef(null);
 
@@ -40,7 +48,14 @@ const SVGLayer = () => {
         setSelectedShapeId(undefined);
       } else {
         // select
-        setSelectedShapeId(e.target.id);
+        const targetId = e.target.id;
+        setSelectedShapeId(targetId);
+        setDragging(true);
+        setMouseDownPoint({
+          x: e.nativeEvent.offsetX,
+          y: e.nativeEvent.offsetY,
+        });
+        setDraggingShape(svgShapes.filter((shape) => shape.id === targetId)[0]);
       }
     }
   };
@@ -48,6 +63,20 @@ const SVGLayer = () => {
   const handleMouseMove = (e) => {
     if (drawing) {
       setCurrPoint({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
+    } else if (dragging && draggingShape) {
+      const deltaX = e.nativeEvent.offsetX - mouseDownPoint.x;
+      const deltaY = e.nativeEvent.offsetY - mouseDownPoint.y;
+
+      updateShape(draggingShape.id, {
+        initCoords: {
+          x: draggingShape.initCoords.x + deltaX,
+          y: draggingShape.initCoords.y + deltaY,
+        },
+        finalCoords: {
+          x: draggingShape.finalCoords.x + deltaX,
+          y: draggingShape.finalCoords.y + deltaY,
+        },
+      });
     }
   };
 
@@ -69,6 +98,9 @@ const SVGLayer = () => {
       setInitPoint({ x: undefined, y: undefined });
       setCurrPoint({ x: undefined, y: undefined });
     } else {
+      setDragging(false);
+      setDraggingShape(undefined);
+      setMouseDownPoint({ x: undefined, y: undefined });
     }
   };
 
