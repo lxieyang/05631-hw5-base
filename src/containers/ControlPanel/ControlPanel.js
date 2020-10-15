@@ -8,7 +8,9 @@ import ControlContext from "../../contexts/control-context";
 import "./ControlPanel.css";
 
 const Modes = () => {
-  const { currMode, setCurrMode } = useContext(ControlContext);
+  const { currMode, setCurrMode, currBorderColor, currFillColor } = useContext(
+    ControlContext
+  );
 
   return (
     <div className="Control">
@@ -34,10 +36,10 @@ const Modes = () => {
         >
           <div
             style={{
-              backgroundColor: "yellow",
+              backgroundColor: currFillColor,
               width: 40,
               height: 30,
-              border: "2px solid lightgray",
+              border: `2px solid ${currBorderColor}`,
             }}
           ></div>
         </div>
@@ -49,10 +51,10 @@ const Modes = () => {
         >
           <div
             style={{
-              backgroundColor: "yellow",
+              backgroundColor: currFillColor,
               width: 40,
               height: 30,
-              border: "2px solid lightgray",
+              border: `2px solid ${currBorderColor}`,
               borderRadius: "50%",
             }}
           ></div>
@@ -63,7 +65,7 @@ const Modes = () => {
 };
 
 const ColorPicker = (props) => {
-  const { currColor, setCurrColor } = props;
+  const { currColor, setCurrColor, conflictColor } = props;
 
   return (
     <div className="Control">
@@ -75,13 +77,24 @@ const ColorPicker = (props) => {
             className={["Mode", currColor === color ? "Active" : null].join(
               " "
             )}
-            onClick={() => setCurrColor(color)}
+            onClick={() => {
+              if (!(color === "transparent" && conflictColor === "transparent"))
+                setCurrColor(color);
+            }}
           >
             <div
               className="ColorBlock"
               style={{
                 backgroundColor: color,
                 border: color === "transparent" ? "none" : null,
+                opacity:
+                  color === "transparent" && conflictColor === "transparent"
+                    ? 0.3
+                    : null,
+                cursor:
+                  color === "transparent" && conflictColor === "transparent"
+                    ? "not-allowed"
+                    : null,
               }}
             >
               {color === "transparent" && "None"}
@@ -94,25 +107,31 @@ const ColorPicker = (props) => {
 };
 
 const BorderColor = () => {
-  const { currBorderColor, setCurrBorderColor } = useContext(ControlContext);
+  const { currBorderColor, setCurrBorderColor, currFillColor } = useContext(
+    ControlContext
+  );
 
   return (
     <ColorPicker
       title={"Border color:"}
       currColor={currBorderColor}
       setCurrColor={setCurrBorderColor}
+      conflictColor={currFillColor}
     />
   );
 };
 
 const FillColor = () => {
-  const { currFillColor, setCurrFillColor } = useContext(ControlContext);
+  const { currFillColor, setCurrFillColor, currBorderColor } = useContext(
+    ControlContext
+  );
 
   return (
     <ColorPicker
       title={"Fill color:"}
       currColor={currFillColor}
       setCurrColor={setCurrFillColor}
+      conflictColor={currBorderColor}
     />
   );
 };
