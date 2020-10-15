@@ -33,11 +33,9 @@ class App extends Component {
   };
 
   updateShape = (shapeId, newData) => {
-    console.log(shapeId);
     let shapes = [...this.state.svgShapes].map((shape) => {
       if (shape.id === shapeId) {
         shape = { ...shape, ...newData };
-        console.log(shape);
       }
       return shape;
     });
@@ -70,18 +68,30 @@ class App extends Component {
             currMode,
             setCurrMode: (mode) => {
               this.setState({ currMode: mode });
+              // if (this.state.selectedShapeId && mode !== "select") {
+              //   this.updateShape(this.state.selectedShapeId, { type: mode });
+              // }
             },
             currBorderColor,
             setCurrBorderColor: (borderColor) => {
               this.setState({ currBorderColor: borderColor });
+              if (this.state.selectedShapeId) {
+                this.updateShape(this.state.selectedShapeId, { borderColor });
+              }
             },
             currBorderWidth,
             setCurrBorderWidth: (borderWidth) => {
               this.setState({ currBorderWidth: borderWidth });
+              if (this.state.selectedShapeId) {
+                this.updateShape(this.state.selectedShapeId, { borderWidth });
+              }
             },
             currFillColor,
             setCurrFillColor: (fillColor) => {
               this.setState({ currFillColor: fillColor });
+              if (this.state.selectedShapeId) {
+                this.updateShape(this.state.selectedShapeId, { fillColor });
+              }
             },
             svgShapes,
             addShape: this.addShape,
@@ -89,6 +99,18 @@ class App extends Component {
             selectedShapeId,
             setSelectedShapeId: (id) => {
               this.setState({ selectedShapeId: id });
+              if (id) {
+                const {
+                  borderColor,
+                  borderWidth,
+                  fillColor,
+                } = this.state.svgShapes.filter((shape) => shape.id === id)[0];
+                this.setState({
+                  currBorderColor: borderColor,
+                  currBorderWidth: borderWidth,
+                  currFillColor: fillColor,
+                });
+              }
             },
             deleteSelectedShape: this.deleteSelectedShape,
           }}

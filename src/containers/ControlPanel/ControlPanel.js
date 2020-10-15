@@ -154,6 +154,7 @@ const Delete = ({ selectedShapeId, deleteSelectedShape }) => {
         <button
           onClick={() => deleteSelectedShape()}
           disabled={!selectedShapeId}
+          style={{ cursor: !selectedShapeId ? "not-allowed" : null }}
         >
           <span role="img" aria-label="undo">
             🚮
@@ -208,6 +209,7 @@ const ControlPanel = () => {
     selectedShapeId,
     deleteSelectedShape,
   } = useContext(ControlContext);
+
   return (
     <div className="ControlPanel">
       {/* <Layers /> */}
