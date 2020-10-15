@@ -5,6 +5,8 @@ import Workspace from "./containers/Workspace/Workspace";
 
 import ControlContext from "./contexts/control-context";
 
+import { genId } from "./shared/util";
+
 import "./App.css";
 
 class App extends Component {
@@ -17,6 +19,15 @@ class App extends Component {
 
     // workspace
     svgShapes: [],
+  };
+
+  addShapes = (shapeData) => {
+    let shapes = [...this.state.svgShapes];
+    shapes.push({
+      ...shapeData,
+      id: genId(),
+    });
+    this.setState({ svgShapes: shapes });
   };
 
   render() {
@@ -51,7 +62,7 @@ class App extends Component {
           }}
         >
           <ControlPanel />
-          <Workspace svgShapes={svgShapes} />
+          <Workspace svgShapes={svgShapes} addShapes={this.addShapes} />
         </ControlContext.Provider>
       </React.Fragment>
     );

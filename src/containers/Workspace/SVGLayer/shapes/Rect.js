@@ -12,7 +12,6 @@ export default ({
 }) => {
   return (
     <rect
-      key={id}
       id={id}
       x={x}
       y={y}

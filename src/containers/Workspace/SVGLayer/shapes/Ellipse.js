@@ -12,7 +12,6 @@ export default ({
 }) => {
   return (
     <ellipse
-      key={id}
       id={id}
       cx={cx}
       cy={cy}
