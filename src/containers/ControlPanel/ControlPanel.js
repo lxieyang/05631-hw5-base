@@ -7,11 +7,7 @@ import ControlContext from "../../contexts/control-context";
 
 import "./ControlPanel.css";
 
-const Modes = () => {
-  const { currMode, setCurrMode, currBorderColor, currFillColor } = useContext(
-    ControlContext
-  );
-
+const Modes = ({ currMode, setCurrMode, currBorderColor, currFillColor }) => {
   return (
     <div className="Control">
       <h3>Mode:</h3>
@@ -64,12 +60,10 @@ const Modes = () => {
   );
 };
 
-const ColorPicker = (props) => {
-  const { currColor, setCurrColor, conflictColor } = props;
-
+const ColorPicker = ({ title, currColor, setCurrColor, conflictColor }) => {
   return (
     <div className="Control">
-      <h3>{props.title}</h3>
+      <h3>{title}</h3>
       <div className="Modes">
         {supportedColors.map((color, idx) => (
           <div
@@ -106,11 +100,11 @@ const ColorPicker = (props) => {
   );
 };
 
-const BorderColor = () => {
-  const { currBorderColor, setCurrBorderColor, currFillColor } = useContext(
-    ControlContext
-  );
-
+const BorderColor = ({
+  currBorderColor,
+  setCurrBorderColor,
+  currFillColor,
+}) => {
   return (
     <ColorPicker
       title={"Border color:"}
@@ -121,11 +115,7 @@ const BorderColor = () => {
   );
 };
 
-const FillColor = () => {
-  const { currFillColor, setCurrFillColor, currBorderColor } = useContext(
-    ControlContext
-  );
-
+const FillColor = ({ currFillColor, setCurrFillColor, currBorderColor }) => {
   return (
     <ColorPicker
       title={"Fill color:"}
@@ -136,9 +126,7 @@ const FillColor = () => {
   );
 };
 
-const BorderWidth = () => {
-  const { currBorderWidth, setCurrBorderWidth } = useContext(ControlContext);
-
+const BorderWidth = ({ currBorderWidth, setCurrBorderWidth }) => {
   return (
     <div className="Control">
       <h3>Border width:</h3>
@@ -158,15 +146,14 @@ const BorderWidth = () => {
   );
 };
 
-const Delete = () => {
+const Delete = ({ selectedShapeId, deleteSelectedShape }) => {
   return (
     <div className="Control">
       <h3>Delete:</h3>
       <div className="DeleteButtonsContainer">
         <button
-          onClick={() => {
-            console.log("delete");
-          }}
+          onClick={() => deleteSelectedShape()}
+          disabled={!selectedShapeId}
         >
           <span role="img" aria-label="undo">
             🚮
@@ -209,14 +196,45 @@ const UndoRedo = () => {
 };
 
 const ControlPanel = () => {
+  const {
+    currMode,
+    setCurrMode,
+    currBorderColor,
+    setCurrBorderColor,
+    currFillColor,
+    setCurrFillColor,
+    currBorderWidth,
+    setCurrBorderWidth,
+    selectedShapeId,
+    deleteSelectedShape,
+  } = useContext(ControlContext);
   return (
     <div className="ControlPanel">
       {/* <Layers /> */}
-      <Modes />
-      <BorderColor />
-      <BorderWidth />
-      <FillColor />
-      <Delete />
+      <Modes
+        currMode={currMode}
+        setCurrMode={setCurrMode}
+        currBorderColor={currBorderColor}
+        currFillColor={currFillColor}
+      />
+      <BorderColor
+        currBorderColor={currBorderColor}
+        setCurrBorderColor={setCurrBorderColor}
+        currFillColor={currFillColor}
+      />
+      <BorderWidth
+        currBorderWidth={currBorderWidth}
+        setCurrBorderWidth={setCurrBorderWidth}
+      />
+      <FillColor
+        currFillColor={currFillColor}
+        setCurrFillColor={setCurrFillColor}
+        currBorderColor={currBorderColor}
+      />
+      <Delete
+        selectedShapeId={selectedShapeId}
+        deleteSelectedShape={deleteSelectedShape}
+      />
       <UndoRedo />
     </div>
   );

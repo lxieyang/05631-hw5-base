@@ -24,11 +24,20 @@ class App extends Component {
 
   addShapes = (shapeData) => {
     let shapes = [...this.state.svgShapes];
+    const id = genId();
     shapes.push({
       ...shapeData,
-      id: genId(),
+      id,
     });
-    this.setState({ svgShapes: shapes });
+    this.setState({ svgShapes: shapes, selectedShapeId: id });
+  };
+
+  deleteSelectedShape = () => {
+    let shapes = [...this.state.svgShapes].filter(
+      (shape) => shape.id !== this.state.selectedShapeId
+    );
+
+    this.setState({ svgShapes: shapes, selectedShapeId: undefined });
   };
 
   render() {
@@ -65,6 +74,7 @@ class App extends Component {
             setSelectedShapeId: (id) => {
               this.setState({ selectedShapeId: id });
             },
+            deleteSelectedShape: this.deleteSelectedShape,
           }}
         >
           <ControlPanel />
