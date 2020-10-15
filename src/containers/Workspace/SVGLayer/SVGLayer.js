@@ -6,12 +6,16 @@ import Ellipse from "./shapes/Ellipse";
 
 import ControlContext from "../../../contexts/control-context";
 
+import { selectShadowId } from "../../../shared/util";
+
 const SVGLayer = ({ svgShapes, addShapes }) => {
   const {
     currMode,
     currBorderColor,
     currBorderWidth,
     currFillColor,
+    selectedShapeId,
+    setSelectedShapeId,
   } = useContext(ControlContext);
 
   const [drawing, setDrawing] = useState(false);
@@ -21,7 +25,6 @@ const SVGLayer = ({ svgShapes, addShapes }) => {
   const svgRef = useRef(null);
 
   const handleMouseDown = (e) => {
-    // console.log("mouse down on svg layer");
     if (currMode !== "select") {
       // should create
       setDrawing(true);
@@ -30,18 +33,23 @@ const SVGLayer = ({ svgShapes, addShapes }) => {
       e.preventDefault();
     } else {
       // should select
+      if (e.target.nodeName === "svg") {
+        // deselect
+        setSelectedShapeId(undefined);
+      } else {
+        // select
+        setSelectedShapeId(e.target.id);
+      }
     }
   };
 
   const handleMouseMove = (e) => {
-    // console.log("mouse move on svg layer");
     if (drawing) {
       setCurrPoint({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
     }
   };
 
   const handleMouseUp = (e) => {
-    // console.log("mouse up on svg layer");
     if (currMode !== "select") {
       if (!(initPoint.x === currPoint.x && initPoint.y === currPoint.y)) {
         // should create
@@ -71,6 +79,10 @@ const SVGLayer = ({ svgShapes, addShapes }) => {
       fillColor,
       id,
     } = shapeData;
+    const filter =
+      selectedShapeId && selectedShapeId === id
+        ? `url(#${selectShadowId})`
+        : null;
     switch (shapeData.type) {
       case "line": {
         return React.createElement(Line, {
@@ -82,6 +94,7 @@ const SVGLayer = ({ svgShapes, addShapes }) => {
           borderWidth,
           id,
           key,
+          filter,
         });
       }
       case "rect": {
@@ -95,6 +108,7 @@ const SVGLayer = ({ svgShapes, addShapes }) => {
           borderWidth,
           id,
           key,
+          filter,
         });
       }
       case "ellipse": {
@@ -113,6 +127,7 @@ const SVGLayer = ({ svgShapes, addShapes }) => {
           borderWidth,
           id,
           key,
+          filter,
         });
       }
       default: {
@@ -153,6 +168,20 @@ const SVGLayer = ({ svgShapes, addShapes }) => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
+      <filter
+        id={selectShadowId}
+        x="-100%"
+        y="-100%"
+        width="400%"
+        height="400%"
+      >
+        <feDropShadow
+          dx="0"
+          dy="0"
+          stdDeviation="15"
+          floodColor="rgba(0, 0, 0, 0.7)"
+        />
+      </filter>
       {svgShapes.map((shape, idx) => renderShape(shape, idx))}
       {drawing && renderTempShape()}
     </svg>

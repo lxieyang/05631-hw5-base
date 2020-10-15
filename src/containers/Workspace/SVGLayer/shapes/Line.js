@@ -1,7 +1,6 @@
 import React from "react";
 
-export default ({ id, x1, x2, y1, y2, borderColor, borderWidth }) => {
-  // console.log(id, key);
+export default ({ id, x1, x2, y1, y2, borderColor, borderWidth, filter }) => {
   return (
     <line
       id={id}
@@ -11,6 +10,7 @@ export default ({ id, x1, x2, y1, y2, borderColor, borderWidth }) => {
       y2={y2}
       stroke={borderColor}
       strokeWidth={borderWidth}
+      filter={filter}
     />
   );
 };

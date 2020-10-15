@@ -19,6 +19,7 @@ class App extends Component {
 
     // workspace
     svgShapes: [],
+    selectedShapeId: undefined,
   };
 
   addShapes = (shapeData) => {
@@ -37,6 +38,7 @@ class App extends Component {
       currBorderWidth,
       currFillColor,
       svgShapes,
+      selectedShapeId,
     } = this.state;
 
     return (
@@ -58,6 +60,10 @@ class App extends Component {
             currFillColor,
             setCurrFillColor: (fillColor) => {
               this.setState({ currFillColor: fillColor });
+            },
+            selectedShapeId,
+            setSelectedShapeId: (id) => {
+              this.setState({ selectedShapeId: id });
             },
           }}
         >

@@ -9,6 +9,7 @@ export default ({
   fillColor,
   borderColor,
   borderWidth,
+  filter,
 }) => {
   return (
     <rect
@@ -20,6 +21,7 @@ export default ({
       fill={fillColor}
       stroke={borderColor}
       strokeWidth={borderWidth}
+      filter={filter}
     />
   );
 };

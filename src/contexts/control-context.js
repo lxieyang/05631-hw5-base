@@ -9,6 +9,9 @@ const controlContext = createContext({
   setCurrBorderWidth: () => {},
   currFillColor: "",
   setCurrFillColor: () => {},
+
+  selectedShapeId: "", // a string or undefined
+  setSelectedShapeId: () => {},
 });
 
 export default controlContext;
