@@ -1,4 +1,10 @@
-import React, { useContext, useState, useRef } from "react";
+import React, {
+  useEffect,
+  useCallback,
+  useContext,
+  useState,
+  useRef,
+} from "react";
 
 import Line from "./shapes/Line";
 import Rect from "./shapes/Rect";
@@ -103,6 +109,36 @@ const SVGLayer = () => {
       setMouseDownPoint({ x: undefined, y: undefined });
     }
   };
+
+  const escKeyDownHandler = useCallback(
+    (e) => {
+      console.log(currMode, dragging, draggingShape);
+      if (e.key === "Escape") {
+        // abort
+        if (dragging) {
+          updateShape(draggingShape.id, {
+            initCoords: {
+              x: draggingShape.initCoords.x,
+              y: draggingShape.initCoords.y,
+            },
+            finalCoords: {
+              x: draggingShape.finalCoords.x,
+              y: draggingShape.finalCoords.y,
+            },
+          });
+          setDragging(false);
+          setDraggingShape(undefined);
+          setMouseDownPoint({ x: undefined, y: undefined });
+        }
+      }
+    },
+    [currMode, dragging, draggingShape, updateShape]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", escKeyDownHandler, true);
+    return () => window.removeEventListener("keydown", escKeyDownHandler, true);
+  }, [escKeyDownHandler]);
 
   const genShape = (shapeData, key = undefined) => {
     const {
