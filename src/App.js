@@ -4,18 +4,17 @@ import ControlPanel from "./containers/ControlPanel/ControlPanel";
 import Workspace from "./containers/Workspace/Workspace";
 
 import ControlContext from "./contexts/control-context";
-
-import { genId } from "./shared/util";
+import { genId, defaultValues } from "./shared/util";
 
 import "./App.css";
 
 class App extends Component {
   state = {
     // controls
-    currMode: "line", // 'select', 'line', 'rect', 'ellipse'
-    currBorderColor: "#000",
-    currBorderWidth: 3,
-    currFillColor: "#9fce63",
+    currMode: defaultValues.mode,
+    currBorderColor: defaultValues.borderColor,
+    currBorderWidth: defaultValues.borderWidth,
+    currFillColor: defaultValues.fillColor,
 
     // workspace
     shapes: [],
