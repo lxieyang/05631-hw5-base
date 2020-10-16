@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useCallback,
-  useContext,
-  useState,
-  useRef,
-} from "react";
+import React, { useEffect, useCallback, useContext, useState } from "react";
 
 import Line from "./shapes/Line";
 import Rect from "./shapes/Rect";
@@ -38,8 +32,6 @@ const SVGLayer = () => {
     y: undefined,
   });
   const [draggingShape, setDraggingShape] = useState(undefined);
-
-  const svgRef = useRef(null);
 
   const handleMouseDown = (e) => {
     if (currMode !== "select") {
@@ -244,7 +236,6 @@ const SVGLayer = () => {
       id="workspace-svg"
       width="800"
       height="800"
-      ref={svgRef}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
