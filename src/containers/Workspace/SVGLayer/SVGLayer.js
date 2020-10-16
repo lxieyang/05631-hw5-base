@@ -112,10 +112,13 @@ const SVGLayer = () => {
 
   const escKeyDownHandler = useCallback(
     (e) => {
-      console.log(currMode, dragging, draggingShape);
       if (e.key === "Escape") {
         // abort
-        if (dragging) {
+        if (drawing) {
+          setDrawing(false);
+          setInitPoint({ x: undefined, y: undefined });
+          setCurrPoint({ x: undefined, y: undefined });
+        } else if (dragging) {
           updateShape(draggingShape.id, {
             initCoords: {
               x: draggingShape.initCoords.x,
@@ -132,7 +135,7 @@ const SVGLayer = () => {
         }
       }
     },
-    [currMode, dragging, draggingShape, updateShape]
+    [drawing, dragging, draggingShape, updateShape]
   );
 
   useEffect(() => {
