@@ -20,7 +20,8 @@ const SVGLayer = () => {
     currBorderColor,
     currBorderWidth,
     currFillColor,
-    svgShapes,
+    shapes,
+    shapesMap,
     addShape,
     updateShape,
     selectedShapeId,
@@ -61,7 +62,9 @@ const SVGLayer = () => {
           x: e.nativeEvent.offsetX,
           y: e.nativeEvent.offsetY,
         });
-        setDraggingShape(svgShapes.filter((shape) => shape.id === targetId)[0]);
+        setDraggingShape(
+          shapesMap[shapes.filter((shapeId) => shapeId === targetId)[0]]
+        );
       }
     }
   };
@@ -92,6 +95,7 @@ const SVGLayer = () => {
         // should create
         addShape({
           type: currMode,
+          visible: true,
           initCoords: initPoint,
           finalCoords: currPoint,
           borderColor: currBorderColor,
@@ -210,7 +214,11 @@ const SVGLayer = () => {
   };
 
   const renderShape = (shapeData, key) => {
-    return genShape(shapeData, key);
+    if (shapeData.visible) {
+      return genShape(shapeData, key);
+    } else {
+      return null;
+    }
   };
 
   const renderTempShape = () => {
@@ -255,7 +263,9 @@ const SVGLayer = () => {
           floodColor="rgba(0, 0, 0, 0.7)"
         />
       </filter>
-      {svgShapes.map((shape, idx) => renderShape(shape, idx))}
+      {shapes.map((shapeId, idx) => {
+        return renderShape(shapesMap[shapeId], idx);
+      })}
       {drawing && renderTempShape()}
     </svg>
   );

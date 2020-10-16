@@ -18,37 +18,34 @@ class App extends Component {
     currFillColor: "#9fce63",
 
     // workspace
-    svgShapes: [],
+    shapes: [],
+    shapesMap: {},
     selectedShapeId: undefined,
   };
 
   addShape = (shapeData) => {
-    let shapes = [...this.state.svgShapes];
+    let shapes = [...this.state.shapes];
+    let shapesMap = { ...this.state.shapesMap };
     const id = genId();
-    shapes.push({
+    shapesMap[id] = {
       ...shapeData,
       id,
-    });
-    this.setState({ svgShapes: shapes, selectedShapeId: id });
+    };
+    shapes.push(id);
+    this.setState({ shapes, shapesMap, selectedShapeId: id });
   };
 
   updateShape = (shapeId, newData) => {
-    let shapes = [...this.state.svgShapes].map((shape) => {
-      if (shape.id === shapeId) {
-        shape = { ...shape, ...newData };
-      }
-      return shape;
-    });
-
-    this.setState({ svgShapes: shapes });
+    let shapesMap = { ...this.state.shapesMap };
+    let targetShape = shapesMap[shapeId];
+    shapesMap[shapeId] = { ...targetShape, ...newData };
+    this.setState({ shapesMap });
   };
 
   deleteSelectedShape = () => {
-    let shapes = [...this.state.svgShapes].filter(
-      (shape) => shape.id !== this.state.selectedShapeId
-    );
-
-    this.setState({ svgShapes: shapes, selectedShapeId: undefined });
+    let shapesMap = { ...this.state.shapesMap };
+    shapesMap[this.state.selectedShapeId].visible = false;
+    this.setState({ shapesMap, selectedShapeId: undefined });
   };
 
   render() {
@@ -57,7 +54,8 @@ class App extends Component {
       currBorderColor,
       currBorderWidth,
       currFillColor,
-      svgShapes,
+      shapes,
+      shapesMap,
       selectedShapeId,
     } = this.state;
 
@@ -68,43 +66,39 @@ class App extends Component {
             currMode,
             setCurrMode: (mode) => {
               this.setState({ currMode: mode });
-              // if (this.state.selectedShapeId && mode !== "select") {
-              //   this.updateShape(this.state.selectedShapeId, { type: mode });
-              // }
             },
             currBorderColor,
             setCurrBorderColor: (borderColor) => {
               this.setState({ currBorderColor: borderColor });
-              if (this.state.selectedShapeId) {
-                this.updateShape(this.state.selectedShapeId, { borderColor });
+              if (selectedShapeId) {
+                this.updateShape(selectedShapeId, { borderColor });
               }
             },
             currBorderWidth,
             setCurrBorderWidth: (borderWidth) => {
               this.setState({ currBorderWidth: borderWidth });
-              if (this.state.selectedShapeId) {
-                this.updateShape(this.state.selectedShapeId, { borderWidth });
+              if (selectedShapeId) {
+                this.updateShape(selectedShapeId, { borderWidth });
               }
             },
             currFillColor,
             setCurrFillColor: (fillColor) => {
               this.setState({ currFillColor: fillColor });
-              if (this.state.selectedShapeId) {
-                this.updateShape(this.state.selectedShapeId, { fillColor });
+              if (selectedShapeId) {
+                this.updateShape(selectedShapeId, { fillColor });
               }
             },
-            svgShapes,
+            shapes,
+            shapesMap,
             addShape: this.addShape,
             updateShape: this.updateShape,
             selectedShapeId,
             setSelectedShapeId: (id) => {
               this.setState({ selectedShapeId: id });
               if (id) {
-                const {
-                  borderColor,
-                  borderWidth,
-                  fillColor,
-                } = this.state.svgShapes.filter((shape) => shape.id === id)[0];
+                const { borderColor, borderWidth, fillColor } = shapesMap[
+                  shapes.filter((shapeId) => shapeId === id)[0]
+                ];
                 this.setState({
                   currBorderColor: borderColor,
                   currBorderWidth: borderWidth,

@@ -9,6 +9,8 @@
 
   width: 300px;
   height: 800px;
+
+  user-select: none;
 }
 
 .ControlPanel .Control {
