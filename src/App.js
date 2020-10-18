@@ -66,7 +66,14 @@ class App extends Component {
           value={{
             currMode,
             setCurrMode: (mode) => {
-              this.setState({ currMode: mode });
+              if (mode === "line") {
+                this.setState({
+                  currMode: mode,
+                  currBorderColor: defaultValues.borderColor,
+                });
+              } else {
+                this.setState({ currMode: mode });
+              }
             },
             currBorderColor,
             setCurrBorderColor: (borderColor) => {

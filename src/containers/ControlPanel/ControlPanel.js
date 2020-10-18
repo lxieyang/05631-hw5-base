@@ -60,7 +60,7 @@ const Modes = ({ currMode, setCurrMode, currBorderColor, currFillColor }) => {
   );
 };
 
-const ColorPicker = ({ title, currColor, setCurrColor, conflictColor }) => {
+const ColorPicker = ({ title, currColor, setCurrColor, conflictColors }) => {
   return (
     <div className="Control">
       <h3>{title}</h3>
@@ -72,7 +72,12 @@ const ColorPicker = ({ title, currColor, setCurrColor, conflictColor }) => {
               " "
             )}
             onClick={() => {
-              if (!(color === "transparent" && conflictColor === "transparent"))
+              if (
+                !(
+                  color === "transparent" &&
+                  conflictColors.includes("transparent")
+                )
+              )
                 setCurrColor(color);
             }}
           >
@@ -82,11 +87,13 @@ const ColorPicker = ({ title, currColor, setCurrColor, conflictColor }) => {
                 backgroundColor: color,
                 border: color === "transparent" ? "none" : null,
                 opacity:
-                  color === "transparent" && conflictColor === "transparent"
+                  color === "transparent" &&
+                  conflictColors.includes("transparent")
                     ? 0.3
                     : null,
                 cursor:
-                  color === "transparent" && conflictColor === "transparent"
+                  color === "transparent" &&
+                  conflictColors.includes("transparent")
                     ? "not-allowed"
                     : null,
               }}
@@ -101,6 +108,7 @@ const ColorPicker = ({ title, currColor, setCurrColor, conflictColor }) => {
 };
 
 const BorderColor = ({
+  currMode,
   currBorderColor,
   setCurrBorderColor,
   currFillColor,
@@ -110,7 +118,10 @@ const BorderColor = ({
       title={"Border color:"}
       currColor={currBorderColor}
       setCurrColor={setCurrBorderColor}
-      conflictColor={currFillColor}
+      conflictColors={[
+        currFillColor,
+        currMode === "line" ? "transparent" : null,
+      ]}
     />
   );
 };
@@ -121,7 +132,7 @@ const FillColor = ({ currFillColor, setCurrFillColor, currBorderColor }) => {
       title={"Fill color:"}
       currColor={currFillColor}
       setCurrColor={setCurrFillColor}
-      conflictColor={currBorderColor}
+      conflictColors={[currBorderColor]}
     />
   );
 };
@@ -220,6 +231,7 @@ const ControlPanel = () => {
         currFillColor={currFillColor}
       />
       <BorderColor
+        currMode={currMode}
         currBorderColor={currBorderColor}
         setCurrBorderColor={setCurrBorderColor}
         currFillColor={currFillColor}
