@@ -22,6 +22,7 @@ class App extends Component {
     selectedShapeId: undefined,
   };
 
+  // add the shapeId to the array, and the shape itself to the map
   addShape = (shapeData) => {
     let shapes = [...this.state.shapes];
     let shapesMap = { ...this.state.shapesMap };
@@ -34,6 +35,7 @@ class App extends Component {
     this.setState({ shapes, shapesMap, selectedShapeId: id });
   };
 
+  // get the shape by its id, and update its properties
   updateShape = (shapeId, newData) => {
     let shapesMap = { ...this.state.shapesMap };
     let targetShape = shapesMap[shapeId];
@@ -41,6 +43,7 @@ class App extends Component {
     this.setState({ shapesMap });
   };
 
+  // deleting a shape sets its visibility to false, rather than removing it
   deleteSelectedShape = () => {
     let shapesMap = { ...this.state.shapesMap };
     shapesMap[this.state.selectedShapeId].visible = false;
