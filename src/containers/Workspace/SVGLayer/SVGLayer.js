@@ -5,7 +5,6 @@ import Rect from "./shapes/Rect";
 import Ellipse from "./shapes/Ellipse";
 
 import ControlContext from "../../../contexts/control-context";
-
 import { selectShadowId } from "../../../shared/util";
 
 const SVGLayer = () => {
@@ -27,11 +26,11 @@ const SVGLayer = () => {
   const [currPoint, setCurrPoint] = useState({ x: undefined, y: undefined });
 
   const [dragging, setDragging] = useState(false);
+  const [draggingShape, setDraggingShape] = useState(undefined);
   const [mouseDownPoint, setMouseDownPoint] = useState({
     x: undefined,
     y: undefined,
   });
-  const [draggingShape, setDraggingShape] = useState(undefined);
 
   const handleMouseDown = (e) => {
     if (currMode !== "select") {
@@ -84,16 +83,33 @@ const SVGLayer = () => {
   const handleMouseUp = (e) => {
     if (currMode !== "select") {
       if (!(initPoint.x === currPoint.x && initPoint.y === currPoint.y)) {
-        // should create
-        addShape({
-          type: currMode,
-          visible: true,
-          initCoords: initPoint,
-          finalCoords: currPoint,
-          borderColor: currBorderColor,
-          borderWidth: currBorderWidth,
-          fillColor: currFillColor,
-        });
+        // check if it's too small
+        const threshold = 10;
+        let shouldCreate = true;
+        const deltaX = Math.abs(initPoint.x - currPoint.x);
+        const deltaY = Math.abs(initPoint.y - currPoint.y);
+        if (currMode === "line") {
+          if (Math.sqrt(deltaX ** 2 + deltaY ** 2) < threshold) {
+            shouldCreate = false;
+          }
+        } else {
+          if (deltaX < threshold || deltaY < threshold) {
+            shouldCreate = false;
+          }
+        }
+
+        if (shouldCreate) {
+          // create
+          addShape({
+            type: currMode,
+            visible: true,
+            initCoords: initPoint,
+            finalCoords: currPoint,
+            borderColor: currBorderColor,
+            borderWidth: currBorderWidth,
+            fillColor: currFillColor,
+          });
+        }
       }
 
       setDrawing(false);
