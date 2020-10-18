@@ -1,5 +1,8 @@
 import React, { useContext } from "react";
 
+import { GrTrash } from "react-icons/gr";
+import { ImUndo, ImRedo } from "react-icons/im";
+
 import CursorImg from "../../assets/img/cursor.png";
 import LineImg from "../../assets/img/line.png";
 import supportedColors from "../../shared/supportedColors";
@@ -33,8 +36,8 @@ const Modes = ({ currMode, setCurrMode, currBorderColor, currFillColor }) => {
           <div
             style={{
               backgroundColor: currFillColor,
-              width: 40,
-              height: 30,
+              width: 36,
+              height: 20,
               border: `2px solid ${currBorderColor}`,
             }}
           ></div>
@@ -48,8 +51,8 @@ const Modes = ({ currMode, setCurrMode, currBorderColor, currFillColor }) => {
           <div
             style={{
               backgroundColor: currFillColor,
-              width: 40,
-              height: 30,
+              width: 36,
+              height: 20,
               border: `2px solid ${currBorderColor}`,
               borderRadius: "50%",
             }}
@@ -165,12 +168,12 @@ const Delete = ({ selectedShapeId, deleteSelectedShape }) => {
         <button
           onClick={() => deleteSelectedShape()}
           disabled={!selectedShapeId}
-          style={{ cursor: !selectedShapeId ? "not-allowed" : null }}
+          style={{
+            cursor: !selectedShapeId ? "not-allowed" : null,
+            opacity: !selectedShapeId ? 0.3 : null,
+          }}
         >
-          <span role="img" aria-label="undo">
-            🚮
-          </span>
-          Delete
+          <GrTrash className="ButtonIcon" /> Delete
         </button>{" "}
       </div>
     </div>
@@ -187,9 +190,7 @@ const UndoRedo = () => {
             console.log("undo");
           }}
         >
-          <span role="img" aria-label="undo">
-            ↩️
-          </span>{" "}
+          <ImUndo className="ButtonIcon" />
           Undo
         </button>{" "}
         <button
@@ -197,9 +198,7 @@ const UndoRedo = () => {
             console.log("redo");
           }}
         >
-          <span role="img" aria-label="redo">
-            ↪️
-          </span>
+          <ImRedo className="ButtonIcon" />
           Redo
         </button>
       </div>

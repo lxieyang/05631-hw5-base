@@ -251,7 +251,7 @@ const SVGLayer = () => {
     <svg
       id="workspace-svg"
       width="800"
-      height="800"
+      height="700"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
