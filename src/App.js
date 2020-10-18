@@ -58,6 +58,8 @@ class App extends Component {
       selectedShapeId,
     } = this.state;
 
+    // update the context with the functions and values defined above and from state
+    // and pass it to the structure below it (control panel and workspace)
     return (
       <React.Fragment>
         <ControlContext.Provider
