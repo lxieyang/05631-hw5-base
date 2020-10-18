@@ -197,6 +197,7 @@ const UndoRedo = () => {
 };
 
 const ControlPanel = () => {
+  // use useContext to access the functions & values from the provider
   const {
     currMode,
     setCurrMode,
