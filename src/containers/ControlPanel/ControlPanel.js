@@ -224,7 +224,6 @@ const ControlPanel = () => {
 
   return (
     <div className="ControlPanel">
-      {/* <Layers /> */}
       <Modes
         currMode={currMode}
         setCurrMode={setCurrMode}
