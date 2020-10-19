@@ -21,6 +21,9 @@ const SVGLayer = () => {
     selectShape,
   } = useContext(ControlContext);
 
+  // use useState to set elements in the React state directly
+  // the first element of the list is the state value
+  // the second element of the list is a function to update the state value in the future
   const [drawing, setDrawing] = useState(false);
   const [initPoint, setInitPoint] = useState({ x: undefined, y: undefined });
   const [currPoint, setCurrPoint] = useState({ x: undefined, y: undefined });
@@ -122,6 +125,9 @@ const SVGLayer = () => {
     }
   };
 
+  // useCallback gives a memoized version of the callback that changes when one of its dependencies change
+  // the first argument is the function that will be run
+  // the second is the dependencies that the function relies on
   const escKeyDownHandler = useCallback(
     (e) => {
       if (e.key === "Escape") {
@@ -150,6 +156,9 @@ const SVGLayer = () => {
     [drawing, dragging, draggingShape, moveShape]
   );
 
+  // useEffect will run after the render is committed to the screen
+  // the first argument is the function that will run
+  // the second argument are the dependencies, meaning this will only run when there is a change in these values
   useEffect(() => {
     window.addEventListener("keydown", escKeyDownHandler, true);
     return () => window.removeEventListener("keydown", escKeyDownHandler, true);
