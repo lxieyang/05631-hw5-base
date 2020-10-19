@@ -185,24 +185,16 @@ const Delete = ({ selectedShapeId, deleteSelectedShape }) => {
   );
 };
 
-const UndoRedo = () => {
+const UndoRedo = ({ undo, redo }) => {
   return (
     <div className="Control">
       <h3>Undo / Redo:</h3>
       <div className="UndoRedoButtonsContainer">
-        <button
-          onClick={() => {
-            console.log("undo");
-          }}
-        >
+        <button onClick={() => undo()}>
           <ImUndo className="ButtonIcon" />
           Undo
         </button>{" "}
-        <button
-          onClick={() => {
-            console.log("redo");
-          }}
-        >
+        <button onClick={() => redo()}>
           <ImRedo className="ButtonIcon" />
           Redo
         </button>
@@ -224,6 +216,8 @@ const ControlPanel = () => {
     changeCurrBorderWidth,
     selectedShapeId,
     deleteSelectedShape,
+    undo,
+    redo,
   } = useContext(ControlContext);
 
   return (
@@ -253,7 +247,7 @@ const ControlPanel = () => {
         selectedShapeId={selectedShapeId}
         deleteSelectedShape={deleteSelectedShape}
       />
-      <UndoRedo />
+      <UndoRedo undo={undo} redo={redo} />
     </div>
   );
 };

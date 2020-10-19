@@ -20,6 +20,34 @@ class App extends Component {
     shapes: [],
     shapesMap: {},
     selectedShapeId: undefined,
+
+    // handling undo/redo
+    commandList: [],
+    currCommand: -1,
+  };
+
+  constructor() {
+    super();
+
+    this.undoHandler = {
+      registerExecution: this.registerExecution,
+
+      // TODO
+    };
+  }
+
+  registerExecution = (commandObject) => {
+    // TODO
+  };
+
+  undo = () => {
+    // TODO
+    console.log("undo");
+  };
+
+  redo = () => {
+    // TODO
+    console.log("redo");
   };
 
   // add the shapeId to the array, and the shape itself to the map
@@ -133,6 +161,9 @@ class App extends Component {
               }
             },
             deleteSelectedShape: this.deleteSelectedShape,
+
+            undo: this.undo,
+            redo: this.redo,
           }}
         >
           <ControlPanel />
