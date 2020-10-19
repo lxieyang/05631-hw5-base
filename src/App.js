@@ -29,24 +29,39 @@ class App extends Component {
   constructor() {
     super();
 
+    /*
+     * pass this undoHandler into command object constructors:
+     *  e.g. let cmdObj = new ChangeFillColorCommandObject(this.undoHandler);
+     */
     this.undoHandler = {
       registerExecution: this.registerExecution,
-
-      // TODO
+      // TODO: fill this up with whatever you need for the command objects
     };
   }
 
-  registerExecution = (commandObject) => {
-    // TODO
-  };
+  /*
+   * TODO:
+   * add the commandObj to the commandList so
+   * that is available for undoing.
+   */
+  registerExecution = (commandObject) => {};
 
+  /*
+   * TODO:
+   * actually call the undo method of the command at
+   * the current position in the undo stack
+   */
   undo = () => {
-    // TODO
     console.log("undo");
   };
 
+  /*
+   * TODO:
+   * actually call the redo method of the command at
+   * the current position in the undo stack. Note that this is
+   * NOT the same command as would be affected by a doUndo()
+   */
   redo = () => {
-    // TODO
     console.log("redo");
   };
 
