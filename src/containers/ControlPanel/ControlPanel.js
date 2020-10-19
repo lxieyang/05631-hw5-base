@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { GrTrash } from "react-icons/gr";
+import { FaTrash } from "react-icons/fa";
 import { ImUndo, ImRedo } from "react-icons/im";
 
 import CursorImg from "../../assets/img/cursor.png";
@@ -175,10 +175,9 @@ const Delete = ({ selectedShapeId, deleteSelectedShape }) => {
           disabled={!selectedShapeId}
           style={{
             cursor: !selectedShapeId ? "not-allowed" : null,
-            opacity: !selectedShapeId ? 0.3 : null,
           }}
         >
-          <GrTrash className="ButtonIcon" /> Delete
+          <FaTrash className="ButtonIcon" /> Delete
         </button>{" "}
       </div>
     </div>
