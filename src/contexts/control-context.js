@@ -3,20 +3,20 @@ import { createContext } from "react";
 // create a context with default values
 const controlContext = createContext({
   currMode: "",
-  setCurrMode: () => {},
+  changeCurrMode: () => {},
   currBorderColor: "",
-  setCurrBorderColor: () => {},
+  changeCurrBorderColor: () => {},
   currBorderWidth: 1,
-  setCurrBorderWidth: () => {},
+  changeCurrBorderWidth: () => {},
   currFillColor: "",
-  setCurrFillColor: () => {},
+  changeCurrFillColor: () => {},
 
   shapes: [],
   shapesMap: {},
   addShape: () => {},
-  updateShape: () => {},
+  moveShape: () => {},
   selectedShapeId: "", // a string or undefined
-  setSelectedShapeId: () => {},
+  selectShape: () => {},
   deleteSelectedShape: () => {},
 });
 

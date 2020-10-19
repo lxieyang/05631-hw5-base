@@ -16,9 +16,9 @@ const SVGLayer = () => {
     shapes,
     shapesMap,
     addShape,
-    updateShape,
+    moveShape,
     selectedShapeId,
-    setSelectedShapeId,
+    selectShape,
   } = useContext(ControlContext);
 
   const [drawing, setDrawing] = useState(false);
@@ -43,11 +43,11 @@ const SVGLayer = () => {
       // should select
       if (e.target.nodeName === "svg") {
         // deselect
-        setSelectedShapeId(undefined);
+        selectShape(undefined);
       } else {
         // select
         const targetId = e.target.id;
-        setSelectedShapeId(targetId);
+        selectShape(targetId);
         setDragging(true);
         setMouseDownPoint({
           x: e.nativeEvent.offsetX,
@@ -67,7 +67,7 @@ const SVGLayer = () => {
       const deltaX = e.nativeEvent.offsetX - mouseDownPoint.x;
       const deltaY = e.nativeEvent.offsetY - mouseDownPoint.y;
 
-      updateShape(draggingShape.id, {
+      moveShape({
         initCoords: {
           x: draggingShape.initCoords.x + deltaX,
           y: draggingShape.initCoords.y + deltaY,
@@ -131,7 +131,7 @@ const SVGLayer = () => {
           setInitPoint({ x: undefined, y: undefined });
           setCurrPoint({ x: undefined, y: undefined });
         } else if (dragging) {
-          updateShape(draggingShape.id, {
+          moveShape({
             initCoords: {
               x: draggingShape.initCoords.x,
               y: draggingShape.initCoords.y,
@@ -147,7 +147,7 @@ const SVGLayer = () => {
         }
       }
     },
-    [drawing, dragging, draggingShape, updateShape]
+    [drawing, dragging, draggingShape, moveShape]
   );
 
   useEffect(() => {

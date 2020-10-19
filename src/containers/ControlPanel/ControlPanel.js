@@ -10,7 +10,12 @@ import ControlContext from "../../contexts/control-context";
 
 import "./ControlPanel.css";
 
-const Modes = ({ currMode, setCurrMode, currBorderColor, currFillColor }) => {
+const Modes = ({
+  currMode,
+  changeCurrMode,
+  currBorderColor,
+  currFillColor,
+}) => {
   return (
     <div className="Control">
       <h3>Mode:</h3>
@@ -19,19 +24,19 @@ const Modes = ({ currMode, setCurrMode, currBorderColor, currFillColor }) => {
           className={["Mode", currMode === "select" ? "Active" : null].join(
             " "
           )}
-          onClick={() => setCurrMode("select")}
+          onClick={() => changeCurrMode("select")}
         >
           <img src={CursorImg} alt="cursor" />
         </div>
         <div
           className={["Mode", currMode === "line" ? "Active" : null].join(" ")}
-          onClick={() => setCurrMode("line")}
+          onClick={() => changeCurrMode("line")}
         >
           <img src={LineImg} alt="line" />
         </div>
         <div
           className={["Mode", currMode === "rect" ? "Active" : null].join(" ")}
-          onClick={() => setCurrMode("rect")}
+          onClick={() => changeCurrMode("rect")}
         >
           <div
             style={{
@@ -46,7 +51,7 @@ const Modes = ({ currMode, setCurrMode, currBorderColor, currFillColor }) => {
           className={["Mode", currMode === "ellipse" ? "Active" : null].join(
             " "
           )}
-          onClick={() => setCurrMode("ellipse")}
+          onClick={() => changeCurrMode("ellipse")}
         >
           <div
             style={{
@@ -113,14 +118,14 @@ const ColorPicker = ({ title, currColor, setCurrColor, conflictColors }) => {
 const BorderColor = ({
   currMode,
   currBorderColor,
-  setCurrBorderColor,
+  changeCurrBorderColor,
   currFillColor,
 }) => {
   return (
     <ColorPicker
       title={"Border color:"}
       currColor={currBorderColor}
-      setCurrColor={setCurrBorderColor}
+      setCurrColor={changeCurrBorderColor}
       conflictColors={[
         currFillColor,
         currMode === "line" ? "transparent" : null,
@@ -129,18 +134,18 @@ const BorderColor = ({
   );
 };
 
-const FillColor = ({ currFillColor, setCurrFillColor, currBorderColor }) => {
+const FillColor = ({ currFillColor, changeCurrFillColor, currBorderColor }) => {
   return (
     <ColorPicker
       title={"Fill color:"}
       currColor={currFillColor}
-      setCurrColor={setCurrFillColor}
+      setCurrColor={changeCurrFillColor}
       conflictColors={[currBorderColor]}
     />
   );
 };
 
-const BorderWidth = ({ currBorderWidth, setCurrBorderWidth }) => {
+const BorderWidth = ({ currBorderWidth, changeCurrBorderWidth }) => {
   return (
     <div className="Control">
       <h3>Border width:</h3>
@@ -148,7 +153,7 @@ const BorderWidth = ({ currBorderWidth, setCurrBorderWidth }) => {
         <input
           type="range"
           style={{ width: 200 }}
-          onChange={(e) => setCurrBorderWidth(e.target.value)}
+          onChange={(e) => changeCurrBorderWidth(e.target.value)}
           min={1}
           max={30}
           value={currBorderWidth}
@@ -210,13 +215,13 @@ const ControlPanel = () => {
   // use useContext to access the functions & values from the provider
   const {
     currMode,
-    setCurrMode,
+    changeCurrMode,
     currBorderColor,
-    setCurrBorderColor,
+    changeCurrBorderColor,
     currFillColor,
-    setCurrFillColor,
+    changeCurrFillColor,
     currBorderWidth,
-    setCurrBorderWidth,
+    changeCurrBorderWidth,
     selectedShapeId,
     deleteSelectedShape,
   } = useContext(ControlContext);
@@ -225,23 +230,23 @@ const ControlPanel = () => {
     <div className="ControlPanel">
       <Modes
         currMode={currMode}
-        setCurrMode={setCurrMode}
+        changeCurrMode={changeCurrMode}
         currBorderColor={currBorderColor}
         currFillColor={currFillColor}
       />
       <BorderColor
         currMode={currMode}
         currBorderColor={currBorderColor}
-        setCurrBorderColor={setCurrBorderColor}
+        changeCurrBorderColor={changeCurrBorderColor}
         currFillColor={currFillColor}
       />
       <BorderWidth
         currBorderWidth={currBorderWidth}
-        setCurrBorderWidth={setCurrBorderWidth}
+        changeCurrBorderWidth={changeCurrBorderWidth}
       />
       <FillColor
         currFillColor={currFillColor}
-        setCurrFillColor={setCurrFillColor}
+        changeCurrFillColor={changeCurrFillColor}
         currBorderColor={currBorderColor}
       />
       <Delete

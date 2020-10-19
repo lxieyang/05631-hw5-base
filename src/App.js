@@ -43,11 +43,49 @@ class App extends Component {
     this.setState({ shapesMap });
   };
 
+  moveShape = (newData) => {
+    if (this.state.selectedShapeId) {
+      this.updateShape(this.state.selectedShapeId, newData);
+    }
+  };
+
   // deleting a shape sets its visibility to false, rather than removing it
   deleteSelectedShape = () => {
     let shapesMap = { ...this.state.shapesMap };
     shapesMap[this.state.selectedShapeId].visible = false;
     this.setState({ shapesMap, selectedShapeId: undefined });
+  };
+
+  changeCurrMode = (mode) => {
+    if (mode === "line") {
+      this.setState({
+        currMode: mode,
+        currBorderColor: defaultValues.borderColor,
+      });
+    } else {
+      this.setState({ currMode: mode });
+    }
+  };
+
+  changeCurrBorderColor = (borderColor) => {
+    this.setState({ currBorderColor: borderColor });
+    if (this.state.selectedShapeId) {
+      this.updateShape(this.state.selectedShapeId, { borderColor });
+    }
+  };
+
+  changeCurrBorderWidth = (borderWidth) => {
+    this.setState({ currBorderWidth: borderWidth });
+    if (this.state.selectedShapeId) {
+      this.updateShape(this.state.selectedShapeId, { borderWidth });
+    }
+  };
+
+  changeCurrFillColor = (fillColor) => {
+    this.setState({ currFillColor: fillColor });
+    if (this.state.selectedShapeId) {
+      this.updateShape(this.state.selectedShapeId, { fillColor });
+    }
   };
 
   render() {
@@ -68,43 +106,20 @@ class App extends Component {
         <ControlContext.Provider
           value={{
             currMode,
-            setCurrMode: (mode) => {
-              if (mode === "line") {
-                this.setState({
-                  currMode: mode,
-                  currBorderColor: defaultValues.borderColor,
-                });
-              } else {
-                this.setState({ currMode: mode });
-              }
-            },
+            changeCurrMode: this.changeCurrMode,
             currBorderColor,
-            setCurrBorderColor: (borderColor) => {
-              this.setState({ currBorderColor: borderColor });
-              if (selectedShapeId) {
-                this.updateShape(selectedShapeId, { borderColor });
-              }
-            },
+            changeCurrBorderColor: this.changeCurrBorderColor,
             currBorderWidth,
-            setCurrBorderWidth: (borderWidth) => {
-              this.setState({ currBorderWidth: borderWidth });
-              if (selectedShapeId) {
-                this.updateShape(selectedShapeId, { borderWidth });
-              }
-            },
+            changeCurrBorderWidth: this.changeCurrBorderWidth,
             currFillColor,
-            setCurrFillColor: (fillColor) => {
-              this.setState({ currFillColor: fillColor });
-              if (selectedShapeId) {
-                this.updateShape(selectedShapeId, { fillColor });
-              }
-            },
+            changeCurrFillColor: this.changeCurrFillColor,
+
             shapes,
             shapesMap,
             addShape: this.addShape,
-            updateShape: this.updateShape,
+            moveShape: this.moveShape,
             selectedShapeId,
-            setSelectedShapeId: (id) => {
+            selectShape: (id) => {
               this.setState({ selectedShapeId: id });
               if (id) {
                 const { borderColor, borderWidth, fillColor } = shapesMap[
