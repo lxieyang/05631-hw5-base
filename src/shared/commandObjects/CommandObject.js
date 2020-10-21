@@ -26,8 +26,10 @@ export default class CommandObject {
   execute() {}
 
   /* override to undo the operation of this command.
-   * this will only be called if addToUndoStack was true, so it must
-   * be an undoable operation.
+   * this should be a NEW command object so it can be put on the undo stack.
+   * execute will only be called if addToUndoStack was true, so it must
+   * be an undoable operation. Be sure to register this
+   * object on the undo stack.
    */
   undo() {}
 
@@ -39,7 +41,7 @@ export default class CommandObject {
   redo() {}
 
   /* override to return true if this operation can be repeated in the
-   * current context
+   * current context. NOTE: Repeat is extra credit.
    */
   canRepeat() {
     return false;
@@ -47,7 +49,8 @@ export default class CommandObject {
 
   /* override to execute the operation again, this time possibly on
    * a new object. Thus, this typically uses the same value but a new
-   * selectedObject
+   * targetObject. Be sure to register this
+   * object on the undo stack.  NOTE: Repeat is extra credit.
    */
   repeat() {}
 }

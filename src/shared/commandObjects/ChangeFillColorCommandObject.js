@@ -23,6 +23,8 @@ export default class ChangeFillColorCommandObject extends CommandObject {
       this.newValue = fillColorWidget.currentColor; // get the color widget's current color
       selectedObj.fillColor = this.newValue; // actually change
 
+      // Note that this command object must be a NEW command object so it can be
+      // registered to put it onto the stack
       if (this.addToUndoStack) this.undoHandler.registerExecution(this);
     }
   }
@@ -53,16 +55,18 @@ export default class ChangeFillColorCommandObject extends CommandObject {
 
   /* override to execute the operation again, this time possibly on
    * a new object. Thus, this typically uses the same value but a new
-   * selectedObject
+   * selectedObject.
    */
   repeat() {
     if (selectedObj !== null) {
       this.targetObject = selectedObj; // get new selected obj
       this.oldValue = selectedObj.fillColor; // object's current color
-      // no change to newColor
+      // no change to newValue since reusing the same color
       selectedObj.fillColor = this.newValue; // actually change
 
-      if (this.addToUndoStack) this.undoHandler.registerExecution(this);
+      // Note that this command object must be a NEW command object so it can be
+      // registered to put it onto the stack
+      if (this.addToUndoStack) this.undoHandler.registerExecution({...this});
     }
   }
 }
