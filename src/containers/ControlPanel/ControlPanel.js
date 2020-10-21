@@ -152,7 +152,7 @@ const BorderWidth = ({ currBorderWidth, changeCurrBorderWidth }) => {
       <div style={{ display: "flex", alignItems: "center" }}>
         <input
           type="range"
-          tabindex="-1"
+          tabIndex="-1"
           style={{ width: 200 }}
           onChange={(e) => changeCurrBorderWidth(e.target.value)}
           min={1}
